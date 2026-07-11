@@ -42,7 +42,7 @@ const contacts = [
     label: 'Email',
     value: 'garamediadigitalmarkating@gmail.com',
   },
-  { icon: Phone, label: 'Phone', value: '+251989559507 and +251941318298' },
+  { icon: Phone, label: 'Phone', value: '+251989559507\n+251941318298' },
   { icon: MapPin, label: 'Studio', value: 'Addis Ababa · Remote worldwide' },
 ]
 
@@ -99,7 +99,7 @@ export default function ConsultationPage() {
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                         {contact.label}
                       </p>
-                      <p className="text-sm font-medium text-navy">
+                      <p className="whitespace-pre-line text-sm font-medium text-navy">
                         {contact.value}
                       </p>
                     </div>
