@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Target, Eye, ShieldCheck, Gem, Users, Zap } from 'lucide-react'
-import { leadership, departments, stats } from '@/lib/content'
+import { stats } from '@/lib/content'
 import { PageHero } from '@/components/page-hero'
 import { SectionHeading } from '@/components/section-heading'
 import { Reveal } from '@/components/reveal'
@@ -10,7 +10,7 @@ import { ConsultationCTA } from '@/components/home/consultation-cta'
 export const metadata: Metadata = {
   title: 'About | Gara Media',
   description:
-    'Gara Media is a premium brand, marketing, and technology partner for ambitious organizations — structured across six specialized departments.',
+    'Gara Media is a premium brand, marketing, and technology partner for ambitious organizations that expect disciplined, measurable outcomes.',
 }
 
 const values = [
@@ -132,70 +132,6 @@ export default function AboutPage() {
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {value.desc}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership */}
-      <section className="bg-secondary py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Leadership"
-            title="The people accountable for your outcomes."
-            intro="An experienced team leading six specialized departments, aligned around a single standard of excellence."
-          />
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {leadership.map((person, i) => (
-              <Reveal
-                key={person.name}
-                delay={(i % 3) * 80}
-                className="flex flex-col rounded-lg border border-border bg-card p-8"
-              >
-                <div className="flex items-center gap-4">
-                  <span className="grid size-14 shrink-0 place-items-center rounded-full bg-navy font-heading text-lg text-gold">
-                    {person.initials}
-                  </span>
-                  <div>
-                    <h3 className="font-heading text-lg text-navy">
-                      {person.name}
-                    </h3>
-                    <p className="text-sm font-medium text-gold">
-                      {person.role}
-                    </p>
-                  </div>
-                </div>
-                <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                  {person.focus}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Departments */}
-      <section className="bg-background py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="How We Are Built"
-            title="Six departments, one coordinated standard."
-          />
-          <div className="mt-16 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {departments.map((dept, i) => (
-              <Reveal
-                key={dept.name}
-                delay={(i % 3) * 70}
-                className="bg-card p-8 lg:p-10"
-              >
-                <h3 className="font-heading text-xl text-navy">{dept.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {dept.desc}
-                </p>
-                <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-gold">
-                  {dept.lead}
                 </p>
               </Reveal>
             ))}

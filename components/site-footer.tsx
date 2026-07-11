@@ -13,7 +13,6 @@ const COLUMNS = [
     title: 'Company',
     links: [
       { label: 'About', href: '/about' },
-      { label: 'Leadership', href: '/about#leadership' },
       { label: 'Careers', href: '/careers' },
       { label: 'Insights', href: '/insights' },
     ],

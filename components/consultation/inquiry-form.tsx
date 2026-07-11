@@ -176,7 +176,7 @@ export function InquiryForm() {
             id="phone"
             name="phone"
             type="tel"
-            placeholder="+1 (555) 000-0000"
+            placeholder="+251 91 000 0000"
             className={cn('mt-2', fieldClass)}
           />
         </div>

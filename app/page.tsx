@@ -5,7 +5,6 @@ import { ServicesSection } from '@/components/home/services-section'
 import { IndustriesSection } from '@/components/home/industries-section'
 import { FeaturedWork } from '@/components/home/featured-work'
 import { ProcessSection } from '@/components/home/process-section'
-import { OrgExcellence } from '@/components/home/org-excellence'
 import { ThoughtLeadership } from '@/components/home/thought-leadership'
 import { ConsultationCTA } from '@/components/home/consultation-cta'
 
@@ -19,7 +18,6 @@ export default function Page() {
       <IndustriesSection />
       <FeaturedWork />
       <ProcessSection />
-      <OrgExcellence />
       <ThoughtLeadership />
       <ConsultationCTA />
     </>

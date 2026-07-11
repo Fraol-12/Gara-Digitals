@@ -224,8 +224,8 @@ export const departments = [
 ]
 
 export const stats = [
-  { value: '40+', label: 'Projects delivered' },
-  { value: '10', label: 'Industries served' },
+  { value: '8+', label: 'Projects delivered' },
+  { value: '6', label: 'Industries served' },
   { value: '98%', label: 'Client satisfaction' },
   { value: '6', label: 'Specialized departments' },
 ]

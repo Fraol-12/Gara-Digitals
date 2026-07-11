@@ -37,8 +37,12 @@ const steps = [
 ]
 
 const contacts = [
-  { icon: Mail, label: 'Email', value: 'hello@garamedia.com' },
-  { icon: Phone, label: 'Phone', value: '+1 (555) 482-0199' },
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'garamediadigitalmarkating@gmail.com',
+  },
+  { icon: Phone, label: 'Phone', value: '+251989559507 and +251941318298' },
   { icon: MapPin, label: 'Studio', value: 'Addis Ababa · Remote worldwide' },
 ]
 
