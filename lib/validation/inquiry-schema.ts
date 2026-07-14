@@ -10,10 +10,10 @@ const emptyToUndefined = (value: unknown) => {
   return trimmed.length > 0 ? trimmed : undefined
 }
 
-const optionalText = (maxLength: number, message: string) =>
+const optionalText = () =>
   z.preprocess(
     emptyToUndefined,
-    z.string().trim().max(maxLength, message).optional(),
+    z.string().trim().optional(),
   )
 
 const engagementValues = [
@@ -52,33 +52,26 @@ export const inquirySchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, 'Name must be at least 2 characters long.')
-    .max(150, 'Name must be 150 characters or fewer.'),
+    .min(1, 'Please enter your name.'),
 
   email: z
     .string()
     .trim()
     .toLowerCase()
-    .email('Enter a valid email address.')
-    .max(254, 'Email must be 254 characters or fewer.'),
+    .min(1, 'Please enter your email address.')
+    .email('Enter a valid email address.'),
 
-  company: optionalText(
-    150,
-    'Company must be 150 characters or fewer.',
-  ),
+  company: optionalText(),
 
-  phone: optionalText(
-    32,
-    'Phone must be 32 characters or fewer.',
-  ),
+  phone: optionalText(),
 
   service: z
-  .array(z.enum(serviceValues))
-  .min(1, 'Select at least one service.')
-  .max(
-    serviceValues.length,
-    'You selected too many services.',
-  ),
+    .array(z.enum(serviceValues))
+    .min(1, 'Select at least one service.')
+    .max(
+      serviceValues.length,
+      'You selected too many services.',
+    ),
 
   budget: z.preprocess(
     emptyToUndefined,
@@ -94,12 +87,8 @@ export const inquirySchema = z.object({
     .string()
     .trim()
     .min(
-      10,
-      'Please write at least 10 characters in your message.',
-    )
-    .max(
-      5000,
-      'Your message cannot exceed 5,000 characters.',
+      1,
+      'Please tell us about your ambitions.',
     ),
 })
 

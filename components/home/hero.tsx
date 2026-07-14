@@ -6,15 +6,16 @@ export function Hero() {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-navy">
       <Image
-        src="/images/hero-architecture.png"
+        src="/images/home-mountain-background.jpg"
         alt=""
         fill
         priority
-        className="object-cover opacity-40"
+        className="object-cover object-center opacity-80"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-navy/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/75 to-navy/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-navy/50" />
+      <div className="absolute inset-0 bg-navy/10" />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 pt-32 pb-20 lg:px-8">
         <div className="max-w-4xl">

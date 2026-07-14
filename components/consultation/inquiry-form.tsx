@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { ArrowUpRight, Check, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { services } from '@/lib/content'
@@ -44,14 +44,98 @@ const fieldClass =
 const labelClass =
   'block text-xs font-semibold uppercase tracking-[0.16em] text-navy'
 
+const errorFieldClass =
+  'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+
+const errorTextClass = 'mt-2 text-xs leading-relaxed text-red-600'
+
+type FormField = 'name' | 'email' | 'service' | 'message'
+
+type FieldErrors = Partial<Record<FormField, string>>
+
+const fieldOrder: FormField[] = [
+  'name',
+  'email',
+  'service',
+  'message',
+]
+
+function getFirstField(errors: FieldErrors) {
+  return fieldOrder.find((field) => Boolean(errors[field]))
+}
+
+function normalizeApiFieldErrors(
+  fields?: Record<string, string[] | undefined>,
+) {
+  if (!fields) {
+    return {}
+  }
+
+  return fieldOrder.reduce<FieldErrors>((errors, field) => {
+    const message = fields[field]?.find(Boolean)
+
+    if (message) {
+      errors[field] = message
+    }
+
+    return errors
+  }, {})
+}
+
 export function InquiryForm() {
   const [engagement, setEngagement] = useState('consultation')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+  const fieldRefs = useRef<
+    Partial<Record<FormField, HTMLElement | null>>
+  >({})
+
+  function clearFieldError(field: FormField) {
+    setSubmitError('')
+
+    setFieldErrors((current) => {
+      if (!current[field]) {
+        return current
+      }
+
+      const next = { ...current }
+      delete next[field]
+
+      return next
+    })
+  }
+
+  function focusField(field: FormField) {
+    const element = fieldRefs.current[field]
+
+    if (!element) {
+      return
+    }
+
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    })
+
+    window.setTimeout(() => {
+      element.focus({ preventScroll: true })
+    }, 250)
+  }
+
+  function focusFirstField(errors: FieldErrors) {
+    const firstField = getFirstField(errors)
+
+    if (firstField) {
+      focusField(firstField)
+    }
+  }
 
   function toggleService(serviceId: string) {
+    clearFieldError('service')
+
     setSelectedServices((current) =>
       current.includes(serviceId)
         ? current.filter((id) => id !== serviceId)
@@ -68,11 +152,15 @@ export function InquiryForm() {
       return
     }
 
-    setSubmitting(true)
     setSubmitError('')
 
     const form = event.currentTarget
     const formData = new FormData(form)
+    const emailElement = form.elements.namedItem('email')
+    const emailInput =
+      emailElement instanceof HTMLInputElement
+        ? emailElement
+        : null
 
     const payload = {
       engagement,
@@ -86,6 +174,42 @@ export function InquiryForm() {
       message: String(formData.get('message') ?? ''),
     }
 
+    const email = payload.email.trim()
+
+    payload.email = email
+
+    if (emailInput) {
+      emailInput.value = email
+    }
+
+    const localErrors: FieldErrors = {}
+
+    if (!payload.name.trim()) {
+      localErrors.name = 'Please enter your name.'
+    }
+
+    if (!email) {
+      localErrors.email = 'Please enter your email address.'
+    } else if (emailInput && !emailInput.validity.valid) {
+      localErrors.email = 'Enter a valid email address.'
+    }
+
+    if (selectedServices.length === 0) {
+      localErrors.service = 'Select at least one service.'
+    }
+
+    if (!payload.message.trim()) {
+      localErrors.message = 'Please tell us about your ambitions.'
+    }
+
+    if (getFirstField(localErrors)) {
+      setFieldErrors(localErrors)
+      focusFirstField(localErrors)
+      return
+    }
+
+    setSubmitting(true)
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -97,9 +221,19 @@ export function InquiryForm() {
 
       const result = (await response.json()) as {
         error?: string
+        fields?: Record<string, string[] | undefined>
       }
 
       if (!response.ok) {
+        const apiFieldErrors = normalizeApiFieldErrors(
+          result.fields,
+        )
+
+        if (getFirstField(apiFieldErrors)) {
+          setFieldErrors(apiFieldErrors)
+          focusFirstField(apiFieldErrors)
+        }
+
         throw new Error(
           result.error || 'Unable to submit your inquiry.',
         )
@@ -108,6 +242,7 @@ export function InquiryForm() {
       form.reset()
       setEngagement('consultation')
       setSelectedServices([])
+      setFieldErrors({})
       setSubmitted(true)
     } catch (error) {
       setSubmitError(
@@ -222,10 +357,28 @@ export function InquiryForm() {
             id="name"
             name="name"
             type="text"
+            ref={(element) => {
+              fieldRefs.current.name = element
+            }}
             required
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={
+              fieldErrors.name ? 'name-error' : undefined
+            }
+            onChange={() => clearFieldError('name')}
             placeholder="Jane Doe"
-            className={cn('mt-2', fieldClass)}
+            className={cn(
+              'mt-2',
+              fieldClass,
+              fieldErrors.name && errorFieldClass,
+            )}
           />
+
+          {fieldErrors.name ? (
+            <p id="name-error" className={errorTextClass}>
+              {fieldErrors.name}
+            </p>
+          ) : null}
         </div>
 
         <div>
@@ -237,10 +390,28 @@ export function InquiryForm() {
             id="email"
             name="email"
             type="email"
+            ref={(element) => {
+              fieldRefs.current.email = element
+            }}
             required
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={
+              fieldErrors.email ? 'email-error' : undefined
+            }
+            onChange={() => clearFieldError('email')}
             placeholder="jane@company.com"
-            className={cn('mt-2', fieldClass)}
+            className={cn(
+              'mt-2',
+              fieldClass,
+              fieldErrors.email && errorFieldClass,
+            )}
           />
+
+          {fieldErrors.email ? (
+            <p id="email-error" className={errorTextClass}>
+              {fieldErrors.email}
+            </p>
+          ) : null}
         </div>
 
         <div>
@@ -276,7 +447,17 @@ export function InquiryForm() {
       </div>
 
       {/* Multiple service selection */}
-      <fieldset className="mt-5">
+      <fieldset
+        ref={(element) => {
+          fieldRefs.current.service = element
+        }}
+        tabIndex={-1}
+        aria-invalid={Boolean(fieldErrors.service)}
+        aria-describedby={
+          fieldErrors.service ? 'service-error' : undefined
+        }
+        className="mt-5 outline-none"
+      >
         <legend className={labelClass}>
           Primary interests
         </legend>
@@ -297,6 +478,9 @@ export function InquiryForm() {
                   active
                     ? 'border-gold bg-gold/5'
                     : 'border-border hover:border-gold/40',
+                  fieldErrors.service &&
+                    !active &&
+                    'border-red-500',
                 )}
               >
                 <input
@@ -328,6 +512,12 @@ export function InquiryForm() {
             )
           })}
         </div>
+
+        {fieldErrors.service ? (
+          <p id="service-error" className={errorTextClass}>
+            {fieldErrors.service}
+          </p>
+        ) : null}
       </fieldset>
 
       {/* Budget and timeline */}
@@ -388,14 +578,29 @@ export function InquiryForm() {
         <textarea
           id="message"
           name="message"
+          ref={(element) => {
+            fieldRefs.current.message = element
+          }}
           rows={5}
           required
+          aria-invalid={Boolean(fieldErrors.message)}
+          aria-describedby={
+            fieldErrors.message ? 'message-error' : undefined
+          }
+          onChange={() => clearFieldError('message')}
           placeholder="Share the challenge, opportunity, or goal you would like to discuss."
           className={cn(
             'mt-2 resize-none',
             fieldClass,
+            fieldErrors.message && errorFieldClass,
           )}
         />
+
+        {fieldErrors.message ? (
+          <p id="message-error" className={errorTextClass}>
+            {fieldErrors.message}
+          </p>
+        ) : null}
       </div>
 
       <button

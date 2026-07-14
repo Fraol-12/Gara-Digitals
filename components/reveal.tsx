@@ -3,17 +3,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
+type RevealProps = React.HTMLAttributes<HTMLElement> & {
+  children: React.ReactNode
+  delay?: number
+  as?: React.ElementType
+}
+
 export function Reveal({
   children,
   className,
   delay = 0,
   as: Tag = 'div',
-}: {
-  children: React.ReactNode
-  className?: string
-  delay?: number
-  as?: React.ElementType
-}) {
+  style,
+  ...props
+}: RevealProps) {
   const ref = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -35,8 +38,9 @@ export function Reveal({
 
   return (
     <Tag
+      {...props}
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ ...style, transitionDelay: `${delay}ms` }}
       className={cn(
         'transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform',
         visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0',
