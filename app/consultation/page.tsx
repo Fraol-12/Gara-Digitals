@@ -40,7 +40,7 @@ const contacts = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'garamediadigitalmarkating@gmail.com',
+    value: 'garamediamarketing@gmail.com',
   },
   { icon: Phone, label: 'Phone', value: '+251989559507\n+251941318298' },
   { icon: MapPin, label: 'Studio', value: 'Addis Ababa · Remote worldwide' },
