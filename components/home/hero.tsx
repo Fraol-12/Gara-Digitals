@@ -4,20 +4,23 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react'
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-navy">
-      <Image
-        src="/images/home-mountain-background.jpg"
-        alt=""
-        fill
-        priority
-        className="object-cover object-center opacity-80"
-        sizes="100vw"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/75 to-navy/25" />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-navy/50" />
-      <div className="absolute inset-0 bg-navy/10" />
+    <section className="relative flex min-h-screen items-center overflow-hidden">
+      
+      {/* 1. Background Image Container (Fixed z-index issue) */}
+      <div className="absolute inset-0">
+        <Image
+          src="/ai-bg.jpg"
+          alt="Gara Digitals Background"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Dark overlay to make the text pop */}
+        <div className="absolute inset-0 bg-black/60" />
+      </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-6 pt-32 pb-20 lg:px-8">
+      {/* 2. Hero Content */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-32 pb-20 lg:px-8">
         <div className="max-w-4xl">
           <p className="reveal inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-gold">
             <span className="h-px w-10 bg-gold" />
@@ -54,7 +57,8 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 hidden border-t border-white/10 bg-navy/30 backdrop-blur-sm lg:block">
+      {/* 3. Bottom Bar */}
+      <div className="absolute inset-x-0 bottom-0 hidden border-t border-white/10 bg-navy/30 backdrop-blur-sm lg:block z-10">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5 text-sm text-white/55">
           <span className="tracking-wide">Trusted by enterprises, governments & NGOs</span>
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold">
