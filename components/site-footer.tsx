@@ -39,7 +39,7 @@ const COLUMNS = [
     title: 'Engage',
     links: [
       { label: 'Case Studies', href: '/case-studies' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'Contact', href: '/consultation' },
       { label: 'Consultation', href: '/consultation' },
     ],
   },

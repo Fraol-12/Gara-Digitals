@@ -10,7 +10,7 @@ import { ConsultationCTA } from '@/components/home/consultation-cta'
 
 export default function Page() {
   return (
-    <main className="relative w-full">
+    <>
       <Hero />
       <TrustStats />
       <WhoWeAre />
@@ -20,6 +20,6 @@ export default function Page() {
       <ProcessSection />
       <ThoughtLeadership />
       <ConsultationCTA />
-    </main>
+    </>
   );
 }
