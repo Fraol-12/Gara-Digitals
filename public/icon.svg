@@ -1,0 +1,29 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gara Media">
+  <style>
+    .bg { fill: #c9a227; }
+    .mark { stroke: #0b2545; }
+    .edge { stroke: #e8d9a0; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0b2545; }
+      .mark { stroke: #c9a227; }
+      .edge { stroke: #13315c; }
+    }
+  </style>
+  <rect class="bg" width="180" height="180" rx="24" />
+  <path
+    class="edge"
+    d="M42 34H34V76"
+    stroke-width="10"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+    opacity="0.7"
+  />
+  <path
+    class="mark"
+    d="M138 59C126 43 107 34 85 34C52 34 29 58 29 90C29 122 52 146 86 146C108 146 127 136 138 119V91H86"
+    stroke-width="18"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  />
+</svg>

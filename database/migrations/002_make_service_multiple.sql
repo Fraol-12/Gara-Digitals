@@ -1,0 +1,6 @@
+ALTER TABLE inquiries
+ALTER COLUMN service TYPE TEXT[]
+USING CASE
+  WHEN service IS NULL THEN NULL
+  ELSE ARRAY[service::TEXT]
+END;
