@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ArrowUpRight } from 'lucide-react'
+import { Menu, X, ArrowUpRight, Sparkles } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { cn } from '@/lib/utils'
+import { useAiAssistant } from '@/components/ai-assistant-provider'
 
 const NAV = [
   { label: 'Services', href: '/services' },
@@ -20,6 +21,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const { openAssistant } = useAiAssistant()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -62,7 +64,17 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-4 lg:flex">
+          <button
+            type="button"
+            onClick={openAssistant}
+            className="group inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-semibold text-gold shadow-sm backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy hover:shadow-gold/20 hover:shadow-md cursor-pointer"
+            aria-label="Let's talk with Gara AI Assistant"
+          >
+            <Sparkles className="size-4 transition-transform group-hover:rotate-12" />
+            <span>Let's talk</span>
+          </button>
+
           <Link
             href="/consultation"
             className="group inline-flex items-center gap-2 rounded-sm bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-all hover:bg-gold-soft"
@@ -87,7 +99,7 @@ export function SiteHeader() {
       <div
         className={cn(
           'overflow-hidden bg-navy/98 backdrop-blur-md transition-all duration-400 lg:hidden',
-          open ? 'max-h-[28rem] border-t border-white/10' : 'max-h-0',
+          open ? 'max-h-[32rem] border-t border-white/10' : 'max-h-0',
         )}
       >
         <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-6">
@@ -100,9 +112,20 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
+              openAssistant()
+            }}
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-sm border border-gold/40 bg-gold/15 px-5 py-3 text-sm font-semibold text-gold hover:bg-gold hover:text-navy transition-all"
+          >
+            <Sparkles className="size-4" />
+            Let's talk (Gara AI Assistant)
+          </button>
           <Link
             href="/consultation"
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-sm bg-gold px-5 py-3 text-sm font-semibold text-navy"
+            className="mt-2 inline-flex items-center justify-center gap-2 rounded-sm bg-gold px-5 py-3 text-sm font-semibold text-navy"
           >
             Book Strategic Consultation
             <ArrowUpRight className="size-4" />

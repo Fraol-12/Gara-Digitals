@@ -3,18 +3,22 @@ import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter, Geist_Mono } from 'next/font/google'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { AiAssistantProvider } from '@/components/ai-assistant-provider'
+import { AiAssistantModal } from '@/components/ai-assistant-modal'
 import './globals.css'
 
 const playfair = Playfair_Display({
   variable: '--font-playfair',
   subsets: ['latin'],
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
 })
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800'],
 })
 
 const geistMono = Geist_Mono({
@@ -38,6 +42,7 @@ export const metadata: Metadata = {
     'enterprise',
     'Ethiopia',
     'Gara Media',
+    'Gara Digitals',
   ],
   icons: {
     icon: [
@@ -77,9 +82,12 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} ${geistMono.variable} bg-background`}
     >
       <body className="font-sans antialiased">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <AiAssistantProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+          <AiAssistantModal />
+        </AiAssistantProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

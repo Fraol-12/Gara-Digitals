@@ -7,17 +7,17 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-playfair), Georgia, serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
+  --font-heading: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Geist Mono', monospace;
 
-  /* Brand tokens */
-  --color-navy: var(--navy);
-  --color-navy-dark: var(--navy-dark);
-  --color-slate-navy: var(--slate-navy);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
+  /* Brand tokens - hex values enable Tailwind v4 opacity modifier parsing (e.g. bg-navy/90, bg-navy-dark/95) */
+  --color-navy: #0b2545;
+  --color-navy-dark: #081b33;
+  --color-slate-navy: #13315c;
+  --color-gold: #c9a227;
+  --color-gold-soft: #e8d9a0;
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -61,6 +61,12 @@
 
 :root {
   color-scheme: light;
+
+  /* Font Fallbacks */
+  --font-heading: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Geist Mono', monospace;
 
   /* Raw brand colors */
   --navy: #0b2545;
@@ -109,6 +115,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
     font-feature-settings: 'liga' 1, 'calt' 1;
   }
   html {
@@ -118,7 +125,9 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
   }
 }
@@ -126,6 +135,12 @@
 @layer utilities {
   .font-heading {
     font-family: var(--font-heading);
+  }
+  .font-sans {
+    font-family: var(--font-sans);
+  }
+  .font-mono {
+    font-family: var(--font-mono);
   }
   .reveal {
     opacity: 0;

@@ -15,6 +15,7 @@ const COLUMNS = [
       { label: 'About', href: '/about' },
       { label: 'Careers', href: '/careers' },
       { label: 'Insights', href: '/insights' },
+      { label: 'AI Assistant', href: '/ai' },
     ],
   },
   {
